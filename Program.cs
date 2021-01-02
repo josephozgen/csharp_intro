@@ -322,13 +322,87 @@ namespace FirstCSharp
 
             SayHello("Andrew");
 
-            Vehicle myVehicle = new Vehicle(7);
+            Vehicle myVehicle = new Vehicle(7, "Green");
             Console.WriteLine($"My vehicle is holding {myVehicle.NumPassengers} people");
+
+            Car newCar = new Car("Blue", "Honda", "Accord");
+            Car anotherCar = new Car("White", "Toyota", "Camry");
+
+            List<Vehicle> vehicles = new List<Vehicle>();
+            vehicles.Add(myVehicle);
+            vehicles.Add(newCar);
+            vehicles.Add(anotherCar);
+
+            myVehicle.getInfo();
+            newCar.getInfo();
+
+            foreach(var v in vehicles)
+            {
+              v.getInfo();
+            }
+
+            Person person = new Person();
+            person.AddToVehicles(myVehicle);
+            person.AddToVehicles(newCar);
+            person.AddToVehicles(anotherCar);
+
+            person.DisplayVehicles();
+
+            IRideable[] variousRideables = new IRideable[]
+            {
+                new Car("Yellow", "Dodge", "Dart"),
+                new Car("Green", "Ford", "Fiesta"),
+                new Horse("Silver Queen", 100),
+                new Horse("Samammish", 75),
+            };
+        // let them all ride!
+        foreach(var rideable in variousRideables)
+        {
+            // each "rideable" object will be able to invoke the common "Ride()" method
+            // however the implementation of "Ride()" will be unique to how each class has chosen to build it
+            rideable.Ride(50);
+        }
+        Car araba = (Car)variousRideables[0];
+        Console.WriteLine(araba.DistanceTraveled);
+
+        Horse wilbur = new Horse("Wilbur", 120);
+        Car volvo = new Car("Yellow", "Volvo", "240");
+         
+        // sally starts out with a horse
+        Person sally = new Person("Sally", wilbur);
+        // sally can ride her horse
+        sally.GoSomewhere(34);
+         
+        // we can also change her Transport to a Car
+        sally.Transport = volvo;
+        sally.GoSomewhere(100);
+        sally.GetInfo();
+
+        // Let's make a string array
+        string[] wordArray = new string[]
+        {
+            "Goat", "Bear", "Skunk", "Deer"
+        };
+        // And a List of strings
+        List<string> wordList = new List<string>()
+        {
+            "Plate", "Cup", "Fork", "Meat Cleaver", "Spatula"
+        };
+        // We can call our function with either!
+        LoopingSomeWords(wordArray);
+        LoopingSomeWords(wordList);
     }
 
-        public static void SayHello(string firstName)
+    static void LoopingSomeWords(IEnumerable<string> someWords)
+    {
+        foreach(var word in someWords)
         {
-          Console.WriteLine($"Hello, {firstName} how are you doing today?");
+            Console.WriteLine(word);
         }
+    }
+    public static void SayHello(string firstName)
+    {
+      Console.WriteLine($"Hello, {firstName} how are you doing today?");
+    }
   }
 }
